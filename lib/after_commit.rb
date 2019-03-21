@@ -58,7 +58,7 @@ module AfterCommit
   
   def self.prepare_collection(collection, connection)
     Thread.current[collection] ||= {}
-    Thread.current[collection][connection.unique_transaction_key] ||= []
+    Thread.current[collection][connection.unique_transaction_key] ||= Set.new
   end
   
   def self.add_to_collection(collection, connection, record)
@@ -67,7 +67,7 @@ module AfterCommit
   
   def self.collection(collection, connection)
     Thread.current[collection] ||= {}
-    Thread.current[collection][connection.old_transaction_key] || []
+    Thread.current[collection][connection.old_transaction_key] || Set.new
   end
 end
 
